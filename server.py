@@ -36,7 +36,7 @@ while True:
   # send a thank you message to the client. encoding to send byte type. 
   c.send('Thank you for connecting'.encode()) 
   while True:
-      cmd = c.recv(1024).decode("utf-8").strip()
+      cmd = c.recv(1024).decode("utf-8").strip().split()
       inputcmd = ["sudo","strace","-o","/dev/null","/bin/sh","-c"]
       #cmd[0] = "\"" + cmd[0]
       #cmd[len(cmd) - 1] = cmd[len(cmd) - 1] + "\""
