@@ -12,5 +12,12 @@ s.connect(('10.0.2.15', port))
 
 # receive data from the server and decoding to get the string.
 print (s.recv(1024).decode())
-# close the connection 
+# close the connection
+while True:
+    print("Enter a command")
+    cmd = input()
+    
+    s.send(cmd.encode())
+    print (s.recv(1024).decode())
+
 s.close()

