@@ -50,6 +50,7 @@ while True:
               string = item + "\""
           inputcmd.append(string)
           print(string)
+          i += 1
 
       output = subprocess.check_output(inputcmd)
       message = "Output is: " + output
