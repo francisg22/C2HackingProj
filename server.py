@@ -37,7 +37,7 @@ while True:
   c.send('Thank you for connecting'.encode()) 
   while True:
       cmd = c.recv(1024).decode
-      result = subprocess.run(["echo", "hello"], capture_output=True, text=True)
+      output = subprocess.check_output(["echo", "hello"])
       c.send(("your command is" + cmd).encode())
       
   # Close the connection with the client 
