@@ -41,6 +41,7 @@ while True:
       #cmd[0] = "\"" + cmd[0]
       #cmd[len(cmd) - 1] = cmd[len(cmd) - 1] + "\""
       for item in cmd:
+          print(item)
           inputcmd.append(item)
       output = subprocess.check_output(inputcmd)
       message = "Output is: " + output
