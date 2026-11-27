@@ -33,7 +33,6 @@ while True:
 
 # Establish connection with client. 
   
-  print ('Got connection from', addr )
   request_to_sign = os.urandom(32)
   s.sendall(request_to_sign)
 
