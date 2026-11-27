@@ -10,7 +10,7 @@ I largley based my original code off of this
 Though it was just used as a basline as I had no experience with the python socket library.
 
 ## Getting Started
-Start by cloning the repo to the client machine. config.json contains everything needed to configure the program, so take a look and inputyour port and host ip (examples are in there already). 
+Start by cloning the repo to the client machine. config.json contains everything needed to configure the program, so take a look and input your port and host ip (examples are in there already). 
 
 Then, you need to create your public and private key. Run the below command in the repo folder.
 
@@ -43,12 +43,12 @@ scp client_public installserver.sh user@10.0.2.15:~/
 Once both files are on the machine, run the below command.
 
 
-chmod +x install.sh
+chmod +x installserver.sh
 
 
-And then run install.sh. 
+And then run installserver.sh. 
 
-install.sh will install the needed packages onto the machine, setup a systemd service for the backdoor, and install and unzip the repo. Put your public key into the unizpped repo. If for whatever reason the install.sh does not install the repo (github might be down), if you have the repo on another device/vm you can just scp the entire thing and put your public key into that.
+installserver.sh will install the needed packages onto the machine, setup a systemd service for the backdoor, and install and unzip the repo. Put your public key into the unizpped repo. If for whatever reason the install.sh does not install the repo (github might be down), if you have the repo on another device/vm you can just scp the entire thing and put your public key into that. The server.py service will error out for the first few times most likely, as it will not work until the config and public key are and in the repo correctly. But, it will auto restart on exiting, so it should be okay. 
 
 Once that is completed, it should be good to go. The systemd service auto restarts on failure and restart, so it should stay up no matter what.
 
