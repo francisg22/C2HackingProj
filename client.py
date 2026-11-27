@@ -7,7 +7,7 @@ PSS = padding.PSS(
     mgf=padding.MGF1(hashes.SHA256()),
     salt_length=padding.PSS.MAX_LENGTH,
 )
-with open(os.path.join(APP_DIR, "client_private.pem"), "rb") as key_file:
+with open( "client_private.pem", "rb") as key_file:
     private_key = serialization.load_pem_private_key(
         key_file.read(), password=None
     )
