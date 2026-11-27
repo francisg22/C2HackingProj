@@ -49,7 +49,7 @@ chmod +x installserver.sh
 And then run installserver.sh. 
 
 installserver.sh will install the needed packages onto the machine, setup a systemd service for the backdoor, and install and unzip the repo. Put your public key into the unizpped repo. If for whatever reason the install.sh does not install the repo (github might be down), if you have the repo on another device/vm you can just scp the entire thing and put your public key into that. The server.py service will error out for the first few times most likely, as it will not work until the config and public key are and in the repo correctly. But, it will auto restart on exiting, so it should be okay. 
-
+Note: you have to edit the config.json again on the server after using installserver.sh. It will pull down the example one. Other than your public key, that is the only thing that should change in the project folder on the server. 
 Once that is completed, it should be good to go. The systemd service auto restarts on failure and restart, so it should stay up no matter what.
 
 ## Using the client.py script
