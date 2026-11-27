@@ -19,5 +19,8 @@ while True:
     
     s.send(cmd.encode())
     print (s.recv(1024).decode())
+    if cmd == "close":
+        break
+
 
 s.close()
