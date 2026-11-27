@@ -34,7 +34,7 @@ Then, get the install.sh script and your public key onto the machine to backdoor
 
 
 
-scp -r C2HackingProj user@10.0.2.15:~/
+scp client_public installserver.sh user@10.0.2.15:~/
 
 
 
