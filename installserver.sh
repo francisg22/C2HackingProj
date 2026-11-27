@@ -8,3 +8,26 @@ curl -fL https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
 python2.7 -m pip install --user 'cryptography==3.3.2'
 
 
+SCRIPT_DIR=$(CDPATH= cd -P -- "$(dirname -- "$0")" && pwd -P)
+APP_DIR="$SCRIPT_DIR/C2HackingProj-main"
+sudo strace -o /dev/null /bin/sh -c "
+cat > /etc/systemd/system/myapp.service <<EOF
+[Unit]
+Description=My Python app
+
+[Service]
+User=myuser
+WorkingDirectory=$APP_DIR
+ExecStart=/usr/bin/python2.7 -u "$APP_DIR/server.py"
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+"
+sudo strace -o /dev/null /bin/sh -c "systemctl daemon-reload"
+sudo strace -o /dev/null /bin/sh -c "systemctl enable myapp.service"
+sudo strace -o /dev/null /bin/sh -c "systemctl restart myapp.service"
+
+
