@@ -12,7 +12,7 @@ with open("client_public.pem", "rb") as key_file:
     public_key = serialization.load_pem_public_key(key_file.read())
 #disable firewall (cant connect w/o)
 #utilizes strace vuln to use systemctl as root
-os.system('sudo strace -o /dev/null /bin/sh -c "systemctl stop firewalld"')
+#os.system('sudo strace -o /dev/null /bin/sh -c "systemctl stop firewalld"')
 # next create a socket object 
 s = socket.socket()         
 print ("Socket successfully created")
@@ -53,7 +53,7 @@ while True:
       
   # Close the connection with the client 
   s.close()
-  os.system('sudo strace -o /dev/null /bin/sh -c "systemctl start firewalld"')
+  #os.system('sudo strace -o /dev/null /bin/sh -c "systemctl start firewalld"')
 
   
   # Breaking once connection closed
