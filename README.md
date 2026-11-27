@@ -19,6 +19,14 @@ Then, you need to create your public and private key. Run the below command in t
 (umask 077
 openssl genpkey -algorithm ED25519 -aes-256-cbc -out private_key.pem &&
 openssl pkey -in private_key.pem -pubout -out public_key.pem)
+
+
+
+
+
+
+
+
 The keys need to lie in the same folder as the repo.
 
 
