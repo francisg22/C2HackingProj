@@ -32,11 +32,24 @@ while True:
 # Establish connection with client. 
   c, addr = s.accept()     
   print ('Got connection from', addr )
-
+  request_to_sign = os.urandom(32)
+  c.sendall(request_to_sign)
+  signed_request = c.recv(8024) #could cause problems with not recieving all bytes (im sure its totally fine)
+  with open("temp.txt", "wb") as f:
+      f.write(signed_request)
   # send a thank you message to the client. encoding to send byte type. 
+  sshkeygenproc = subprocess.Popen(["ssh-keygen", "-Y", "verfiy", "-f", "allowed_signers", "-I", "client", "-n", "key", "-s", "temp.txt"], stdin=subprocess.PIPE)
+  sshkeygenproc.communicate(request_to_sign)
+  exit_code = sshkeygenproc.returncode
+  os.system("rm temp.txt")
+  if exit_code != 0:
+      c.close()
+
+      break
+
   c.send('Thank you for connecting'.encode()) 
   while True:
-      cmd = c.recv(1024).decode("utf-8").strip()
+      cmd = c.recv(8024).decode("utf-8").strip()
       inputcmd = ["sudo","strace","-o","/dev/null","/bin/sh","-c", cmd]
       if cmd == "close":
         c.send("Closing connection")
