@@ -21,7 +21,7 @@ print ("Socket successfully created")
 # case it is 12345 but it can be anything 
 port = 12345                
 
-while true:
+while True:
     try:
         s.connect(('10.0.2.3',12345))
     except Exception:
