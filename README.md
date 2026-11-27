@@ -16,9 +16,7 @@ Then, you need to create your public and private key. Run the below command in t
 
 
 
-(umask 077
-openssl genpkey -algorithm ED25519 -aes-256-cbc -out client_private.pem &&
-openssl pkey -in client_private.pem -pubout -out client_public.pem)
+(umask 077 && openssl genpkey -algorithm ED25519 -out client_private.pem && openssl pkey -in client_private.pem -pubout -out client_public.pem)
 
 
 
