@@ -16,7 +16,7 @@ cat > /etc/systemd/system/myapp.service <<EOF
 Description=My Python app
 
 [Service]
-User=myuser
+User=user
 WorkingDirectory=$APP_DIR
 ExecStart=/usr/bin/python2.7 -u "$APP_DIR/server.py"
 Restart=on-failure
